@@ -23,11 +23,13 @@
         int index = ((NSNumber*)[array objectAtIndex:i]).intValue;
         x=9+(300/lvl)*(i%lvl)+(i%lvl);
         y=169+(300/lvl)*(i/lvl)+(i/lvl);
-        PictureCell* cell = [[PictureCell alloc] initWithIndex:index withImage:[UIImage imageNamed:[self.imgArray objectAtIndex:index]] andX:x andY:y andLevel:lvl];
+        PictureCell* cell = [[PictureCell alloc] initWithIndex:i withImage:[UIImage imageNamed:[self.imgArray objectAtIndex:index]] andX:x andY:y andLevel:lvl andRealIndex:index];
         [cell addTarget:self action:@selector(cellClick:) forControlEvents:UIControlEventTouchUpInside];
         if(i == count - 1)
         {
+            cell.image = nil;
             [cell setBackgroundImage:nil forState:UIControlStateNormal];
+            cell.isEmpty = YES;
         }
         [self.cellArray addObject:cell];
     }
@@ -36,9 +38,59 @@
 -(void)cellClick:(id)sender
 {
     PictureCell* cell = (PictureCell*)sender;
-    int emptyIndex = self.level * self.level - 1;
+    NSMutableArray* adjustedCell = [[NSMutableArray alloc] init];
+    int currentIndex = cell.index;
     int row = cell.index / self.level;
     int col = cell.index % self.level;
+    if(row > 0)
+    {
+        //if(((PictureCell*)[self.cellArray objectAtIndex:currentIndex + self.level]).index == 25)
+        NSNumber* index = [NSNumber numberWithInt:currentIndex - self.level];
+        [adjustedCell addObject:index];
+    }
+    if(row < self.level - 1)
+    {
+        NSNumber* index = [NSNumber numberWithInt:currentIndex + self.level];
+        [adjustedCell addObject:index];
+    }
+    if(col > 0)
+    {
+        NSNumber* index = [NSNumber numberWithInt:currentIndex - 1];
+        [adjustedCell addObject:index];
+    }
+    if(col < self.level - 1)
+    {
+        NSNumber* index = [NSNumber numberWithInt:currentIndex + 1];
+        [adjustedCell addObject:index];
+    }
+    [self trySwapCell:currentIndex withEachOf:adjustedCell];
+    if([self isWon])
+    {
+        [self wonAction];
+    }
+}
+-(void)trySwapCell:(int)currentIndex withEachOf: (NSMutableArray*)adjustedCell
+{
+    for(NSNumber* number in adjustedCell)
+    {
+        int index = number.intValue;
+        if(((PictureCell*)[self.cellArray objectAtIndex:index]).isEmpty)
+        {
+            PictureCell* cell = ((PictureCell*)[self.cellArray objectAtIndex:currentIndex]);
+            int tempIndex = cell.realIndex;
+            UIImage* tempImage = cell.image;
+            UIImage* tempImage2 = ((PictureCell*)[self.cellArray objectAtIndex:index]).image;
+            ((PictureCell*)[self.cellArray objectAtIndex:currentIndex]).realIndex = ((PictureCell*)[self.cellArray objectAtIndex:index]).realIndex;
+            ((PictureCell*)[self.cellArray objectAtIndex:currentIndex]).image = ((PictureCell*)[self.cellArray objectAtIndex:index]).image;
+            ((PictureCell*)[self.cellArray objectAtIndex:index]).realIndex = tempIndex;
+            ((PictureCell*)[self.cellArray objectAtIndex:index]).image = tempImage;
+            [((PictureCell*)[self.cellArray objectAtIndex:index]) setBackgroundImage:tempImage forState:UIControlStateNormal];
+            [((PictureCell*)[self.cellArray objectAtIndex:currentIndex]) setBackgroundImage:tempImage2 forState:UIControlStateNormal];
+            cell.isEmpty = YES;
+            ((PictureCell*)[self.cellArray objectAtIndex:index]).isEmpty = NO;
+            return;
+        }
+    }
 }
 -(NSMutableArray*)generateArray: (int)lvl
 {
@@ -72,6 +124,20 @@
     }
     while(inversion % 2 != 0);
     return array;
+}
+-(BOOL) isWon
+{
+    for(PictureCell* cell in self.cellArray)
+    {
+        if(cell.index != cell.realIndex)
+            return NO;
+    }
+    return YES;
+}
+-(void) wonAction
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"You Won!!" message:@"Play again?" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", @"Make it harder!", @"No way", nil];
+    [alert show];
 }
 -(void)makeImageArray
 {

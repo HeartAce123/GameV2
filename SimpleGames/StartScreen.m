@@ -43,8 +43,8 @@ UIButton* level;
 {
     [start removeFromSuperview];
     [level removeFromSuperview];
-    PictureBoard* game = [[PictureBoard alloc] initWithLevel:5];
-    for(PictureCell* cell in game.cellArray)
+    self.game = [[PictureBoard alloc] initWithLevel:3];
+    for(PictureCell* cell in self.game.cellArray)
     {
         [self.view addSubview:cell];
     }

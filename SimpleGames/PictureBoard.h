@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PictureCell.h"
-@interface PictureBoard : NSObject
+@interface PictureBoard : NSObject <UIAlertViewDelegate>
 @property (strong, nonatomic) NSMutableArray* cellArray;
 @property (strong, nonatomic) NSMutableArray* imgArray;
 @property int level;

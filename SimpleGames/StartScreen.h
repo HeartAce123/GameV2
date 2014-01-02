@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PictureBoard.h"
 @interface StartScreen : UIViewController
+@property (strong, nonatomic) PictureBoard* game;
 -(void) startButtonClick: (id)sender;
 @end

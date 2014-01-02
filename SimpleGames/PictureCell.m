@@ -29,18 +29,15 @@
     }
     return self;
 }
--(id)initWithIndex:(int)index withImage:(UIImage *)image andX:(int)x andY:(int)y andLevel:(int)lvl
+-(id)initWithIndex:(int)index withImage:(UIImage *)image andX:(int)x andY:(int)y andLevel:(int)lvl andRealIndex:(int)realIndex
 {
     self = [[PictureCell alloc] initWithFrame:CGRectMake(x, y, 300/lvl, 300/lvl)];
     self.image = image;
     [self setBackgroundImage:self.image forState:UIControlStateNormal];
+    self.realIndex = realIndex;
     self.index = index;
-    [self addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    self.isEmpty = NO;
     return self;
-}
--(void)btnClick:(id)sender
-{
-    
 }
 -(void)handleSwipe
 {

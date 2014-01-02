@@ -10,8 +10,9 @@
 #import <UIKit/UIKit.h>
 @interface PictureCell : UIButton
 @property int index;
+@property int realIndex;
+@property bool isEmpty;
 @property (strong, nonatomic) UIImage* image;
--(id) initWithIndex: (int)index withImage: (UIImage*)image andX:(int)x andY:(int)y andLevel: (int)lvl;
--(void) btnClick: (id)sender;
+-(id) initWithIndex: (int)index withImage: (UIImage*)image andX:(int)x andY:(int)y andLevel: (int)lvl andRealIndex: (int)realIndex;
 -(void) handleSwipe;
 @end
