@@ -40,11 +40,12 @@
     PictureCell* cell = (PictureCell*)sender;
     NSMutableArray* adjustedCell = [[NSMutableArray alloc] init];
     int currentIndex = cell.index;
+    if(cell.isEmpty)
+        return;
     int row = cell.index / self.level;
     int col = cell.index % self.level;
     if(row > 0)
     {
-        //if(((PictureCell*)[self.cellArray objectAtIndex:currentIndex + self.level]).index == 25)
         NSNumber* index = [NSNumber numberWithInt:currentIndex - self.level];
         [adjustedCell addObject:index];
     }

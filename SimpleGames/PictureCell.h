@@ -14,5 +14,4 @@
 @property bool isEmpty;
 @property (strong, nonatomic) UIImage* image;
 -(id) initWithIndex: (int)index withImage: (UIImage*)image andX:(int)x andY:(int)y andLevel: (int)lvl andRealIndex: (int)realIndex;
--(void) handleSwipe;
 @end

@@ -13,20 +13,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe)];
-        UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe)];
-        UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe)];
-        UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe)];
-        [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
-        [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
-        [swipeDown setDirection:UISwipeGestureRecognizerDirectionDown];
-        [swipeUp setDirection:UISwipeGestureRecognizerDirectionUp];
-        [self addGestureRecognizer:swipeLeft];
-        [self addGestureRecognizer:swipeRight];
-        [self addGestureRecognizer:swipeDown];
-        [self addGestureRecognizer:swipeUp];
-        self.userInteractionEnabled = YES;
-    }
+            }
     return self;
 }
 -(id)initWithIndex:(int)index withImage:(UIImage *)image andX:(int)x andY:(int)y andLevel:(int)lvl andRealIndex:(int)realIndex
@@ -38,13 +25,5 @@
     self.index = index;
     self.isEmpty = NO;
     return self;
-}
--(void)handleSwipe
-{
-    
-}
--(void)swapPosition
-{
-    
 }
 @end
